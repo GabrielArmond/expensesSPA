@@ -1,32 +1,38 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <base-spinner />
+    <router-view />
   </div>
 </template>
 
+<script>
+import BaseSpinner from './components/global/BaseSpinner.vue'
+
+export default {
+  name: 'App',
+  components: {
+    BaseSpinner
+  },
+  mounted () {
+    // toda vez que o usuario logar ou deslogar, este comando vai ser chamado
+    this.$firebase.auth().onAuthStateChanged(user => {
+      // se user for verdadeiro user = uid, senao user = null
+      window.uid = user ? user.uid : null
+      // se usuario existir, vai para o home, senao volta para o login
+      this.$router.push({ name: window.uid ? 'home' : 'login' })
+
+      setTimeout(() => {
+        this.$root.$emit('Spinner::hide')
+      }, 300)
+    })
+  }
+}
+</script>
+
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  background-color: var(--darker);
+  min-height: 100vh;
+  color: var(--light)
 }
 </style>
