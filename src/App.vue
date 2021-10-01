@@ -1,23 +1,40 @@
 <template>
   <div id="app">
     <base-spinner />
-    <router-view />
+    <div class="container-fluid" v-if="isLogged">
+      <div class="row">
+        <div class="col-2 navigation-sidebar">
+          <h1 class="app-title">Expenses</h1>
+          <layout-navigation />
+        </div>
+        <div class="col">
+          <router-view />
+        </div>
+      </div>
+    </div>
+
+    <router-view v-else/>
   </div>
 </template>
 
 <script>
 import BaseSpinner from './components/global/BaseSpinner.vue'
+import LayoutNavigation from './components/layout/LayoutNavigation.vue'
 
 export default {
   name: 'App',
   components: {
-    BaseSpinner
+    BaseSpinner,
+    LayoutNavigation
   },
+  data: () => ({ isLogged: false }),
   mounted () {
     // toda vez que o usuario logar ou deslogar, este comando vai ser chamado
     this.$firebase.auth().onAuthStateChanged(user => {
       // se user for verdadeiro user = uid, senao user = null
       window.uid = user ? user.uid : null
+      this.isLogged = !!user
+
       // se usuario existir, vai para o home, senao volta para o login
       this.$router.push({ name: window.uid ? 'home' : 'login' })
 
@@ -33,6 +50,14 @@ export default {
 #app {
   background-color: var(--darker);
   min-height: 100vh;
-  color: var(--light)
+  color: var(--light);
+  .navigation-sidebar {
+    background-color: var(--dark-medium);
+  }
+  .app-title {
+    font-size: 20pt;
+    margin-top: 10px;
+    text-align: center;
+  }
 }
 </style>
