@@ -20,13 +20,13 @@ const routes = [
       import(/* webpackChunkName: "home" */ '../pages/home/Home')
   },
   {
-    path: '/lista-gastos',
-    name: 'lista-gastos',
+    name: 'expenses-list',
+    path: '/expenses-list',
     meta: {
       icon: 'list-ul', title: 'Lista Gastos'
     },
     component: () => import(
-      /* webpackChunkName: "lista-gastos" */ '../pages/lista-gastos/ListaGastos'
+      /* webpackChunkName: "lista-gastos" */ '../pages/expenses-list/ExpensesList'
     )
   },
   {

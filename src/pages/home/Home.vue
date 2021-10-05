@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" v-if="!loadingData" >
     <div class="row">
       <div class="col-6 home-box">
         <small>Você gastou</small>
@@ -19,14 +19,14 @@
         </div>
         <small v-date-format="totals.biggest.createAt"/>
       </div>
-      <div class="col-6 home-box">
+      <div class="col-6 home-box" >
         <small>A menor gasto foi de</small>
         <div class="money" v-money-format="totals.lowest.value"/>
         <small>Com</small>
         <div class="description">
           {{ totals.lowest.description }}
         </div>
-        <small>No dia 10/11/2019</small>
+        <small v-date-format="totals.lowest.createAt"/>
       </div>
     </div>
   </div>
@@ -37,7 +37,8 @@ export default {
   name: 'Home',
 
   data: () => ({
-    expenses: []
+    expenses: [],
+    loadingData: true
   }),
 
   created () {
@@ -57,11 +58,16 @@ export default {
 
       if (exp.length) {
         // percorre a array de values e jogando os valores de cada item em uma array
-        values.totalSpent = exp.map(e => parseFloat(e.value))
+        values.totalSpent = exp.map(e => +e.value)
           .reduce((acc, cur) => acc + cur, 0) // acc = acumulador // cur = current (valor atual do array) // pega o valor atual e soma no acumulador
       }
 
       values.average = values.totalSpent / exp.length
+
+      // const max = exp.reduce((prev, current) => {
+      //   return prev.value > Number(current.value) ? prev : current
+      // })
+      // console.log(max)
 
       // com a funçao sort colocamos que se a for maior que b entao ordene do maior para o menor, pegando o index 0 para saber o maior value
       values.biggest = exp.sort((a, b) => parseFloat(b.value - a.value))[0]
@@ -81,6 +87,7 @@ export default {
       ref.on('value', data => {
         const values = data.val()
         this.expenses = Object.keys(values).map(i => values[i])
+        this.loadingData = false
       })
     }
   }
