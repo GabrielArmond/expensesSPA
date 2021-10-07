@@ -15,7 +15,7 @@
     <div class="container-group">
       <div class="container">
         <div v-if="activeMonth.data && !activeMonth.data.length">
-          Você nao cadastrou nenhum gasto neste mês
+          Você não cadastrou nenhum gasto neste mês
         </div>
         <template v-else>
         <expense-list-item
@@ -105,6 +105,7 @@ export default {
 
       return groupedMonths
     }
+
   },
 
   methods: {

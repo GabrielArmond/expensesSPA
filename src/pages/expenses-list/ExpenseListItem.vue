@@ -23,6 +23,12 @@
 
 <script>
 export default {
+  data: () => {
+    return {
+      expenses: []
+    }
+  },
+
   props: {
     data: { type: Object, required: true }
   },
