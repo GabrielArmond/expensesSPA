@@ -39,6 +39,16 @@
                 required
                 >
               </div>
+              <div class="form-group w-100">
+                <label for="">Data: </label>
+                <input
+                 id="date-input"
+                 class="form-control"
+                 type="date"
+                 required
+                 v-model="form.createAt"
+                 >
+              </div>
               <div class="form-group flex-column col-12 d-flex align-items-center">
                 <input
                 ref="input"
@@ -105,7 +115,8 @@ export default {
       form: {
         value: '',
         receipt: '',
-        description: ''
+        description: '',
+        createAt: ''
       }
     }
   },
@@ -157,7 +168,7 @@ export default {
           id,
           ...this.form,
           receipt: url,
-          createAt: new Date().getTime()
+          createAt: new Date(this.form.createAt).getTime()
         }
 
         ref.child(id).set(payload, err => {
@@ -176,9 +187,13 @@ export default {
             })
             this.closeModal()
             this.loading = false
+
+            this.form.description = ''
+            this.form.value = ''
           }
         })
       } catch (error) {
+        this.closeModal()
         this.$root.$emit('Notification::show', {
           type: 'danger',
           message: 'Não foi possível inserir o gasto, tente novamente.'
@@ -202,6 +217,6 @@ export default {
 }
 .form-control {
   margin-top: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 </style>
