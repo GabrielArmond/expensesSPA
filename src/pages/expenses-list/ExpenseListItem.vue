@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div class="expense-list-item row">
       <div class="col-10">
         <div class="description">
@@ -19,9 +20,11 @@
       </div>
       <div class="col-2" v-money-format="data.value"/>
     </div>
+  </div>
 </template>
 
 <script>
+
 export default {
   data: () => {
     return {

@@ -30,6 +30,16 @@ const routes = [
     )
   },
   {
+    name: 'filter-list',
+    path: '/filter-list',
+    meta: {
+      icon: 'filter', title: 'Pesquisa Gastos'
+    },
+    component: () => import(
+      /* webpackChunkName: "filter-list" */ '../pages/filter-list/FilterList'
+    )
+  },
+  {
     path: '/login',
     name: 'login',
     meta: {
